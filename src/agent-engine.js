@@ -1,6 +1,51 @@
 /**
  * InstaViral AI - Autonomous Nightly Multi-Agent Pipeline & AI Editing Engine
+ * Incorporates both External Daily Viral Trends & Internal Account Historical Performance
  */
+
+export const HISTORICAL_TOP_POSTS = [
+  {
+    id: 'top-1',
+    title: 'El error #1 con ChatGPT que arruina tus respuestas',
+    views: '420.5K',
+    likes: '28.4K',
+    saves: '14.8K',
+    retentionRate: '84%',
+    duration: 15,
+    winningPattern: 'Gancho de rotura de creencia + solución en 3 pasos',
+    date: 'Hace 3 semanas'
+  },
+  {
+    id: 'top-2',
+    title: '3 webs secretas para trabajar la mitad de tiempo',
+    views: '312.0K',
+    likes: '19.8K',
+    saves: '11.2K',
+    retentionRate: '79%',
+    duration: 16,
+    winningPattern: 'Lista rápida sin relleno + llamado a comentar por DM',
+    date: 'Hace 1 mes'
+  },
+  {
+    id: 'top-3',
+    title: 'Cómo automaticé 10 horas de oficina con agentes IA',
+    views: '195.4K',
+    likes: '13.1K',
+    saves: '7.6K',
+    retentionRate: '73%',
+    duration: 18,
+    winningPattern: 'Demostración práctica en pantalla + urgencia tecnológica',
+    date: 'Hace 2 meses'
+  }
+];
+
+export const ACCOUNT_DNA = {
+  bestHookStyle: 'Rotura de Creencia ("Deja de hacer X...")',
+  optimalDuration: '14 - 17 segundos (retención promedio 78.4%)',
+  topPerformingFormat: 'Listicle dinámico de 3 herramientas con subtítulos Hormozi',
+  bestEngagementTrigger: 'Llamada a la acción para comentar palabra clave (dispara guardados x3.8)',
+  peakFollowerActivity: '13:45 (almuerzo) y 21:15 (scroll nocturno)'
+};
 
 export const INITIAL_TRENDS = [
   {
@@ -50,7 +95,9 @@ export const INITIAL_VIDEOS = [
     script: 'Deja de usar ChatGPT como un novato. El verdadero secreto que usan los expertos es la inversión de roles. En vez de darle órdenes, dile: Hazme tú a mí las cinco preguntas clave que necesitas para darme el mejor resultado posible. Pruébalo hoy mismo y guarda este reel para no olvidarlo.',
     scheduledTime: '13:45',
     scheduledReason: 'Pico de almuerzo en tu nicho (Tech & Negocios). Máxima retención en descansos móviles.',
-    status: 'scheduled', // 'scheduled' | 'approved' | 'published' | 'dismissed'
+    accountMatchBadge: 'Basado en tu Reel #1 histórico (420K vistas)',
+    accountMatchReason: 'Replica el gancho "Deja de usar X" que generó un 84% de retención en tu cuenta.',
+    status: 'scheduled',
     theme: 'cyberpunk',
     subtitleStyle: 'hormozi',
     duration: 16,
@@ -59,16 +106,18 @@ export const INITIAL_VIDEOS = [
     predictedVirality: 96,
     predictedViews: '120K - 340K',
     tags: ['#InteligenciaArtificial', '#ChatGPTTips', '#Productividad', '#TechHacks', '#Emprendedores'],
-    aiPromptHistory: ['Generado automáticamente en el escaneo nocturno']
+    aiPromptHistory: ['Generado automáticamente cruzando tendencias de hoy con tu histórico']
   },
   {
     id: 'vid-2',
     title: '3 Herramientas que Ahorran 15 Horas Semanales',
     hookBadge: '⚡ TOP HERRAMIENTAS',
     hook: 'Estas tres herramientas deberían ser ilegales de lo potentes que son para tu trabajo.',
-    script: 'Estas tres herramientas te van a ahorrar 15 horas de trabajo. Primera: Gamma App, crea presentaciones completas con diseño profesional en 30 segundos. Segunda: ElevenLabs, para clonar tu voz con realismo brutal. Y tercera: Perplexity Pro, para investigar sin perderte en Google. Comenta APPS y te envío los enlaces.',
+    script: 'Estas tres herramientas te van a ahorrar 15 horas de trabajo. Primera: Gamma App, crea presentaciones completas con diseño profesional en 30 segundos. Segunda: ElevenLabs, para clonar tu voz con realismo brutal. Y tercera: Perplexity Pro, para investigar sin perderte en Google. Comenta APPS y te envío los enlaces directos.',
     scheduledTime: '18:30',
     scheduledReason: 'Final de jornada laboral. Audiencia buscando optimizar su tiempo para el día siguiente.',
+    accountMatchBadge: 'Basado en tu Reel #2 histórico (312K vistas)',
+    accountMatchReason: 'Aplica el formato de 3 herramientas ultrarrápidas con llamado a comentar en DM que más guardados te ha dado.',
     status: 'scheduled',
     theme: 'luxury-gold',
     subtitleStyle: 'neon-green',
@@ -78,7 +127,7 @@ export const INITIAL_VIDEOS = [
     predictedVirality: 92,
     predictedViews: '85K - 210K',
     tags: ['#HerramientasIA', '#ProductividadExtrema', '#TrabajoRemoto', '#AppsQueNoConocias', '#NegociosDigitales'],
-    aiPromptHistory: ['Generado automáticamente en el escaneo nocturno']
+    aiPromptHistory: ['Generado automáticamente cruzando tendencias de hoy con tu histórico']
   },
   {
     id: 'vid-3',
@@ -88,6 +137,8 @@ export const INITIAL_VIDEOS = [
     script: 'Si tu trabajo depende de una pantalla, escucha con atención. La automatización ya no es el futuro lejano, está pasando ahora mismo. Quienes aprendan a liderar agentes de IA multiplicarán sus oportunidades; quienes sigan haciendo tareas mecánicas quedarán atrás. ¿De qué lado vas a estar? Sígueme para dominar la IA.',
     scheduledTime: '21:15',
     scheduledReason: 'Pico nocturno (Bedtime scroll). Máxima receptividad para reflexiones profundas y llamadas a seguir.',
+    accountMatchBadge: 'Basado en tu Reel #3 histórico (195K vistas)',
+    accountMatchReason: 'Aprovecha el patrón de urgencia tecnológica y futuro laboral que mayor ratio de compartidos produjo en tu perfil.',
     status: 'scheduled',
     theme: 'synthwave',
     subtitleStyle: 'bold-white',
@@ -97,7 +148,7 @@ export const INITIAL_VIDEOS = [
     predictedVirality: 94,
     predictedViews: '110K - 290K',
     tags: ['#FuturoDelTrabajo', '#Automatizacion', '#AgentesIA', '#DesarrolloProfesional', '#Tecnologia'],
-    aiPromptHistory: ['Generado automáticamente en el escaneo nocturno']
+    aiPromptHistory: ['Generado automáticamente cruzando tendencias de hoy con tu histórico']
   }
 ];
 
@@ -106,36 +157,43 @@ export class AgentPipelineService {
     this.logs = [];
   }
 
-  // Simulate Nightly AI Agent Pipeline execution
+  // Simulate Nightly AI Agent Pipeline execution with Internal Historical DNA Analysis
   async runNightlyPipeline(onProgress) {
     const steps = [
       {
-        agent: 'Agente 1: Radar de Tendencias',
-        role: 'Scout de Redes Sociales',
+        agent: 'Agente 1: Radar de Tendencias Globales',
+        role: 'Scout Externo de Tendencias',
         action: 'Escaneando las últimas 24 horas de Instagram Reels, TikTok y YouTube Shorts...',
-        detail: 'Analizados 2,418 vídeos en tu nicho. Detectados 4 patrones de audio viral con retención > 72% y 3 fórmulas de hook con rotura de patrón visual.',
+        detail: 'Analizados 2,418 vídeos del nicho. Detectados 4 patrones de audio viral y 3 ganchos en aceleración exponencial.',
+        delay: 1000
+      },
+      {
+        agent: 'Agente 2: Auditor de Histórico Propio de Tu Cuenta',
+        role: 'Analizador de Rendimiento Interno',
+        action: 'Auditoría profunda de los 20 Reels con más visitas de tu cuenta (@creadores.ia)...',
+        detail: 'Extraído tu ADN de éxito: Tu Reel #1 (420K vistas) triunfó por ganchos de rotura de creencia y duración de 15s con retención del 84%. Tu audiencia guarda x3.8 más contenido con listas de 3 herramientas.',
+        delay: 1300
+      },
+      {
+        agent: 'Agente 3: Estratega de Viralidad Cruzada',
+        role: 'Predictor de Algoritmo & Horarios',
+        action: 'Cruzando las tendencias de hoy con el ADN probado de tu audiencia...',
+        detail: 'Fórmula calibrada: combinando el audio viral de hoy con el estilo de hook que mejor le funciona a tus seguidores. Picos horarios fijados: 13:45, 18:30 y 21:15.',
         delay: 1100
       },
       {
-        agent: 'Agente 2: Estratega de Viralidad',
-        role: 'Predictor de Algoritmo & Horarios',
-        action: 'Calculando ventanas de audiencia de máxima concurrencia para mañana...',
-        detail: 'Identificados 3 picos estratégicos: 13:45 (Almuerzo tech), 18:30 (Salida oficina), 21:15 (Scroll nocturno). Probabilidad de viralidad estimada: 92% - 96%.',
-        delay: 1200
-      },
-      {
-        agent: 'Agente 3: Productor Audiovisual & Guionista',
+        agent: 'Agente 4: Productor Audiovisual & Guionista',
         role: 'Generador de Contenido 9:16',
         action: 'Redactando guiones de alta retención, kinetic typography y pistas sonoras...',
-        detail: 'Generados 3 reels verticales completos con hooks magnéticos, subtítulos dinámicos estilo Hormozi y sincronización de voz y música Lo-Fi.',
-        delay: 1400
+        detail: 'Generados 3 reels verticales que replican la estructura de tus 3 vídeos más virales adaptados a los temas tendencia de hoy.',
+        delay: 1300
       },
       {
-        agent: 'Agente 4: Inspector de Calidad & Safe-Zone',
+        agent: 'Agente 5: Inspector de Calidad & Safe-Zone',
         role: 'Cumplimiento de Instagram & UI Safe Area',
         action: 'Verificando zonas seguras de pantalla 9:16, derechos de autor y políticas...',
         detail: 'Verificación 100% aprobada: ningún texto solapa botones de like o descripción. Vídeos listos en la cola para el horario programado.',
-        delay: 1000
+        delay: 900
       }
     ];
 
@@ -157,7 +215,7 @@ export class AgentPipelineService {
         currentStep: steps.length,
         totalSteps: steps.length,
         status: 'completed',
-        summary: 'Ciclo nocturno completado con éxito. 3 vídeos generados y preparados para mañana.'
+        summary: 'Ciclo nocturno completado. Los vídeos combinan las tendencias de hoy con lo que más visitas te ha dado en tu cuenta.'
       });
     }
 
@@ -182,6 +240,11 @@ export class AgentPipelineService {
       updated.hookBadge = '📊 ANÁLISIS ESTRATÉGICO';
       updated.hook = 'El informe definitivo que revela el cambio en el mercado este trimestre.';
       updated.script = 'El informe definitivo revela un cambio radical en los patrones de consumo. Las marcas que han implementado automatización autónoma reportan un incremento del 35% en retención. Si deseas la plantilla de implementación, déjame un comentario.';
+    } else if (p.includes('histórico') || p.includes('visitas') || p.includes('mi cuenta') || p.includes('mejor')) {
+      updated.hookBadge = '🏆 FÓRMULA DE TU TOP #1';
+      updated.hook = 'El truco exacto que generó 420.000 vistas en mi perfil este mes.';
+      updated.script = 'El truco exacto que generó más de 400.000 vistas en mi perfil fue simplificar la herramienta más compleja en un solo paso accionable. No necesitas diez tutoriales, solo aplicar este método. Comenta GUÍA y te envío el resumen.';
+      updated.accountMatchBadge = 'Optimizado 100% según tu mejor Reel histórico';
     }
 
     // 2. Modify Visual Theme
@@ -245,6 +308,7 @@ export class AgentPipelineService {
         subtitleStyle: 'hormozi',
         scheduledTime: '15:20',
         scheduledReason: 'Ventana de rescate vespertina de alto tráfico orgánico.',
+        accountMatchBadge: 'Fórmula de alta retención propia',
         tags: ['#InstagramGrowth', '#ReelsVirales', '#CreadoresDeContenido', '#AlgoritmoInstagram']
       },
       {
@@ -256,6 +320,7 @@ export class AgentPipelineService {
         subtitleStyle: 'neon-green',
         scheduledTime: '20:45',
         scheduledReason: 'Pico de alta conversión comercial nocturna.',
+        accountMatchBadge: 'Formato lista de recursos (Top guardados)',
         tags: ['#MarketingDigital', '#Emprendimiento', '#RecursosGratis', '#HerramientasWeb']
       }
     ];
