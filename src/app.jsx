@@ -45,11 +45,22 @@ import {
   Bookmark,
   Volume2,
   VolumeX,
-  Edit3
+  Edit3,
+  Trophy,
+  History,
+  BarChart2,
+  Target,
+  Award
 } from 'lucide-react';
 
 import { VideoRenderer } from './video-engine.js';
-import { INITIAL_VIDEOS, INITIAL_TRENDS, AgentPipelineService } from './agent-engine.js';
+import {
+  INITIAL_VIDEOS,
+  INITIAL_TRENDS,
+  HISTORICAL_TOP_POSTS,
+  ACCOUNT_DNA,
+  AgentPipelineService
+} from './agent-engine.js';
 import { soundFx } from './sound-effects.js';
 
 const agentService = new AgentPipelineService();
@@ -82,7 +93,8 @@ export function App() {
       isConnected: true,
       graphApiToken: 'EAAGm0PX4ZB1... (Token de larga duración activo)',
       businessAccountId: '178414053092144',
-      autoPublishWithoutApproval: false
+      autoPublishWithoutApproval: false,
+      prioritizeHistoricalWinners: true
     };
   });
 
@@ -105,15 +117,15 @@ export function App() {
     return saved ? JSON.parse(saved) : INITIAL_VIDEOS;
   });
 
-  // Trends State
+  // Trends & Historical Posts State
   const [trends, setTrends] = useState(INITIAL_TRENDS);
+  const [topPosts, setTopPosts] = useState(HISTORICAL_TOP_POSTS);
 
   // Active Video Modal for 9:16 vertical player
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoProgress, setVideoProgress] = useState({ current: 0, total: 16 });
   const [likedVideos, setLikedVideos] = useState({});
-  const [isMuted, setIsMuted] = useState(false);
 
   // AI Prompt Modification inside Player or Modal
   const [aiPromptInput, setAiPromptInput] = useState('');
@@ -128,9 +140,6 @@ export function App() {
 
   // WhatsApp Simulation Modal State
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
-
-  // Manual Edit Modal State
-  const [editingVideo, setEditingVideo] = useState(null);
 
   // Sound FX toggle
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -326,7 +335,7 @@ export function App() {
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Análisis de tendencias nocturno & generación autónoma de Reels
+                Tendencias externas + Auditoría de tu contenido más viral
               </p>
             </div>
           </div>
@@ -407,7 +416,7 @@ export function App() {
             }`}
           >
             <Cpu className="w-3.5 h-3.5" />
-            Pipeline de Agentes IA & Tendencias
+            Pipeline IA & ADN de Tu Cuenta
           </button>
 
           <button
@@ -431,7 +440,7 @@ export function App() {
             }`}
           >
             <InstagramIcon className="w-3.5 h-3.5" />
-            Instagram Graph API & Nicho
+            Instagram & Top Histórico
           </button>
         </div>
       </header>
@@ -488,7 +497,7 @@ export function App() {
                   </span>
                 </h1>
                 <p className="text-sm text-slate-400 mt-1">
-                  Generados anoche tras analizar qué temas y audios fueron tendencia. Cada uno está calculado para el pico horario de mayor impacto.
+                  Generados tras cruzar <strong className="text-slate-200">las tendencias virales de hoy</strong> con <strong className="text-purple-300">lo que más visitas ha tenido históricamente en tu cuenta</strong>.
                 </p>
               </div>
 
@@ -502,6 +511,22 @@ export function App() {
                   Crear Vídeo Extra con IA
                 </button>
               </div>
+            </div>
+
+            {/* Account DNA Synchronization Banner */}
+            <div className="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5 text-purple-200">
+                <Trophy className="w-4 h-4 text-purple-400 shrink-0" />
+                <span>
+                  <strong>Doble Motor de Aprendizaje Activo:</strong> Los agentes auditan los 20 Reels con más visitas de tu cuenta (como tu Reel #1 con 420K vistas) para aplicar tus mejores ganchos y duración a las tendencias de hoy.
+                </span>
+              </div>
+              <button
+                onClick={() => setActiveTab('account')}
+                className="shrink-0 text-[11px] font-bold text-purple-300 hover:text-white underline underline-offset-2"
+              >
+                Ver Top Histórico
+              </button>
             </div>
 
             {/* Empty state if user dismissed all */}
@@ -610,6 +635,16 @@ export function App() {
                         </p>
                       </div>
 
+                      {/* Connection to user's top historical video */}
+                      {reel.accountMatchBadge && (
+                        <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-[11px] text-purple-300 flex items-start gap-2">
+                          <Trophy className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                          <span>
+                            <strong className="text-purple-200">{reel.accountMatchBadge}:</strong> {reel.accountMatchReason}
+                          </span>
+                        </div>
+                      )}
+
                       {/* Algorithm Rationale pill */}
                       <div className="p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
                         <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
@@ -680,16 +715,16 @@ export function App() {
           </div>
         )}
 
-        {/* TAB 2: PIPELINE DE AGENTES IA NOCTURNOS */}
+        {/* TAB 2: PIPELINE DE AGENTES IA NOCTURNOS & ADN DE CUENTA */}
         {activeTab === 'pipeline' && (
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-                  Pipeline Autónomo de Agentes IA
+                  Pipeline Autónomo Multi-Agente
                 </h1>
                 <p className="text-sm text-slate-400 mt-1">
-                  Arquitectura multi-agente que opera cada noche mientras duermes para analizar el mercado y producir vídeos virales listos para mañana.
+                  5 agentes colaboran cada noche combinando lo que es tendencia en el mundo con el historial de lo que más visitas te ha generado.
                 </p>
               </div>
 
@@ -702,69 +737,141 @@ export function App() {
               </button>
             </div>
 
-            {/* Visual Multi-Agent Architecture Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* ADN de Rendimiento de Tu Cuenta Card */}
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-950/40 via-slate-900/90 to-slate-950 border border-purple-500/30">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+                    <Trophy className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      ADN de Éxito Extraído de Tu Cuenta (@creadores.ia)
+                    </h3>
+                    <p className="text-xs text-purple-300">
+                      Patrones reales analizados de tus 20 mejores Reels históricos
+                    </p>
+                  </div>
+                </div>
+                <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-semibold self-start sm:self-auto">
+                  🟢 Sincronizado con Graph API
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                <div className="p-3.5 rounded-xl bg-black/40 border border-purple-500/20">
+                  <div className="text-[11px] text-purple-300 font-bold uppercase tracking-wider mb-1">
+                    🎯 Mejor Estilo de Gancho
+                  </div>
+                  <div className="text-sm font-bold text-white">{ACCOUNT_DNA.bestHookStyle}</div>
+                  <p className="text-[11px] text-slate-400 mt-1">Genera un 84% de retención en los primeros 3 segundos.</p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-black/40 border border-purple-500/20">
+                  <div className="text-[11px] text-purple-300 font-bold uppercase tracking-wider mb-1">
+                    ⏱️ Duración Óptima Propia
+                  </div>
+                  <div className="text-sm font-bold text-white">{ACCOUNT_DNA.optimalDuration}</div>
+                  <p className="text-[11px] text-slate-400 mt-1">Tu audiencia completa y repite vídeos en este rango.</p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-black/40 border border-purple-500/20">
+                  <div className="text-[11px] text-purple-300 font-bold uppercase tracking-wider mb-1">
+                    📊 Formato Más Guardado
+                  </div>
+                  <div className="text-sm font-bold text-white">Listas Rápidas de 3 Puntos</div>
+                  <p className="text-[11px] text-slate-400 mt-1">Acumula más de 35.000 guardados totales en tu perfil.</p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-black/40 border border-purple-500/20">
+                  <div className="text-[11px] text-purple-300 font-bold uppercase tracking-wider mb-1">
+                    ⚡ Llamada a la Acción Clave
+                  </div>
+                  <div className="text-sm font-bold text-white">Comentar palabra para DM</div>
+                  <p className="text-[11px] text-slate-400 mt-1">Multiplica x3.8 el impulso del algoritmo de Instagram.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Multi-Agent Architecture Cards (5 Agents) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {/* Agent 1 */}
-              <div className="glass-card p-5 rounded-2xl border border-slate-800 relative">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-3">
-                  <Radar className="w-5 h-5" />
+              <div className="glass-card p-4 rounded-2xl border border-slate-800 relative">
+                <div className="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-2.5">
+                  <Radar className="w-4 h-4" />
                 </div>
                 <div className="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Agente 1</div>
                 <h3 className="font-bold text-slate-100 text-sm mt-0.5">Radar de Tendencias</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Escanea miles de Reels y TikToks de las últimas 24 horas. Detecta audios en aceleración exponencial y hashtags en rotura.
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                  Escanea miles de Reels y TikToks de las últimas 24 horas y audios en aceleración.
                 </p>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 flex items-center gap-1.5">
+                <div className="mt-3 pt-2.5 border-t border-slate-800 text-[10px] text-slate-300 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  2,418 fuentes monitoreadas
+                  2,418 fuentes escaneadas
                 </div>
               </div>
 
-              {/* Agent 2 */}
-              <div className="glass-card p-5 rounded-2xl border border-slate-800 relative">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3">
-                  <TrendingUp className="w-5 h-5" />
+              {/* Agent 2: Auditor Histórico Propio */}
+              <div className="glass-card p-4 rounded-2xl border border-purple-500/40 relative bg-purple-950/20">
+                <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 mb-2.5">
+                  <Trophy className="w-4 h-4" />
                 </div>
-                <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Agente 2</div>
-                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Estratega de Viralidad</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Cruza el nicho de tu cuenta con las horas de mayor actividad de tu audiencia para fijar los momentos exactos de publicación.
+                <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Agente 2 (Clave)</div>
+                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Auditor de Tu Histórico</h3>
+                <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                  Analiza tus 20 Reels con más visitas (hasta 420K). Extrae qué ganchos y temas ama tu audiencia.
                 </p>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  Picos calculados: 13:45, 18:30, 21:15
+                <div className="mt-3 pt-2.5 border-t border-purple-800/60 text-[10px] text-amber-300 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                  Top 20 Reels auditados
                 </div>
               </div>
 
               {/* Agent 3 */}
-              <div className="glass-card p-5 rounded-2xl border border-slate-800 relative">
-                <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-3">
-                  <Clapperboard className="w-5 h-5" />
+              <div className="glass-card p-4 rounded-2xl border border-slate-800 relative">
+                <div className="w-9 h-9 rounded-xl bg-pink-500/15 border border-pink-500/30 flex items-center justify-center text-pink-400 mb-2.5">
+                  <TrendingUp className="w-4 h-4" />
                 </div>
-                <div className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Agente 3</div>
-                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Productor Audiovisual</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Redacta guiones magnéticos, genera la cinemática de fondo 9:16, sincroniza subtítulos estilo Alex Hormozi y locución de voz.
+                <div className="text-[10px] font-bold text-pink-400 uppercase tracking-wider">Agente 3</div>
+                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Estratega Cruzado</h3>
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                  Cruza la tendencia de hoy con el ADN de tu cuenta para fijar horas de máxima probabilidad viral.
                 </p>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 flex items-center gap-1.5">
+                <div className="mt-3 pt-2.5 border-t border-slate-800 text-[10px] text-slate-300 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  Motor 9:16 a 60fps & Subtítulos IA
+                  Picos: 13:45, 18:30, 21:15
                 </div>
               </div>
 
               {/* Agent 4 */}
-              <div className="glass-card p-5 rounded-2xl border border-slate-800 relative">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-3">
-                  <ShieldCheck className="w-5 h-5" />
+              <div className="glass-card p-4 rounded-2xl border border-slate-800 relative">
+                <div className="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-2.5">
+                  <Clapperboard className="w-4 h-4" />
                 </div>
-                <div className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Agente 4</div>
-                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Inspector de Safe-Zone</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Garantiza que ningún texto quede tapado por los botones de Instagram, revisa copyright de música y prepara la cola de entrega.
+                <div className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Agente 4</div>
+                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Productor de Vídeo</h3>
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                  Genera la cinemática 9:16, locución y subtítulos sincronizados palabra por palabra.
                 </p>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 flex items-center gap-1.5">
+                <div className="mt-3 pt-2.5 border-t border-slate-800 text-[10px] text-slate-300 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  100% Cumplimiento Instagram API
+                  Motor 9:16 a 60fps
+                </div>
+              </div>
+
+              {/* Agent 5 */}
+              <div className="glass-card p-4 rounded-2xl border border-slate-800 relative">
+                <div className="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-2.5">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Agente 5</div>
+                <h3 className="font-bold text-slate-100 text-sm mt-0.5">Inspector Safe-Zone</h3>
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                  Verifica que ningún subtítulo choque con los botones de like, comentarios o la cabecera de Reels.
+                </p>
+                <div className="mt-3 pt-2.5 border-t border-slate-800 text-[10px] text-slate-300 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  100% Safe-Zone IG
                 </div>
               </div>
             </div>
@@ -774,7 +881,7 @@ export function App() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
                   <Radio className="w-4 h-4 text-rose-500" />
-                  Radar de Tendencias Detectadas Hoy
+                  Radar de Tendencias Externas Detectadas Hoy
                 </h3>
                 <span className="text-xs text-slate-400">Actualizado hace 2 horas</span>
               </div>
@@ -940,20 +1047,20 @@ export function App() {
           </div>
         )}
 
-        {/* TAB 4: CONEXION INSTAGRAM GRAPH API */}
+        {/* TAB 4: CONEXION INSTAGRAM GRAPH API & HISTORICO DE TU CUENTA */}
         {activeTab === 'account' && (
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6">
             <div>
               <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-                Conexión con Cuenta de Instagram
+                Conexión con Instagram & Top Histórico de Tu Cuenta
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Conexión directa mediante la API de Instagram Graph para creadores y cuentas profesionales.
+                Los agentes de IA analizan continuamente lo que más visitas te da en Instagram para repetir tus fórmulas ganadoras.
               </p>
             </div>
 
+            {/* Profile Card */}
             <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-6">
-              {/* Account Card Profile */}
               <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-3.5">
                   <img
@@ -990,10 +1097,10 @@ export function App() {
               </div>
 
               {/* Niche & Audience Settings */}
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Nicho de Contenido (guía a los agentes IA)
+                    Nicho de Contenido
                   </label>
                   <select
                     value={account.niche}
@@ -1011,40 +1118,70 @@ export function App() {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Descripción del Público Objetivo
+                    Estrategia de Aprendizaje IA
                   </label>
-                  <textarea
-                    rows={2}
-                    value={account.targetAudience}
-                    onChange={(e) => setAccount({ ...account, targetAudience: e.target.value })}
-                    className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-rose-500"
-                  />
+                  <div className="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between">
+                    <span className="text-xs text-purple-200 font-medium">Replicar ganchos de mis vídeos más virales</span>
+                    <input
+                      type="checkbox"
+                      checked={account.prioritizeHistoricalWinners}
+                      onChange={(e) => setAccount({ ...account, prioritizeHistoricalWinners: e.target.checked })}
+                      className="w-4 h-4 accent-purple-500 cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
+            </div>
 
-              {/* Instagram Graph API details */}
-              <div className="pt-4 border-t border-slate-800 space-y-3">
-                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Permisos de Instagram Graph API v21.0
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <div className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center gap-2 text-slate-300">
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    instagram_content_publish (Subida de Reels)
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center gap-2 text-slate-300">
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    instagram_manage_insights (Métricas)
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center gap-2 text-slate-300">
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    instagram_basic (Perfil e ID)
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center gap-2 text-slate-300">
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    pages_read_engagement (Página FB asociada)
-                  </div>
+            {/* Historical Top Performing Reels (User's Winning Content) */}
+            <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-amber-400" />
+                    Tus Reels Históricos con Más Visitas (Auditoría Graph API)
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    El Agente 2 audita estos vídeos cada noche para extraer la retención y el estilo de gancho que tu audiencia más premia.
+                  </p>
                 </div>
+                <span className="text-xs text-slate-400 font-mono">3 analizados</span>
+              </div>
+
+              <div className="space-y-3">
+                {topPosts.map((post, idx) => (
+                  <div
+                    key={post.id}
+                    className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-purple-500/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black text-xs shrink-0">
+                        #{idx + 1}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-200">{post.title}</h4>
+                        <p className="text-xs text-purple-300 mt-0.5">
+                          <strong>Patrón ganador:</strong> {post.winningPattern}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-xs shrink-0 pl-11 sm:pl-0">
+                      <div className="text-center">
+                        <div className="font-extrabold text-white text-sm">{post.views}</div>
+                        <div className="text-[10px] text-slate-400">Vistas</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-extrabold text-emerald-400 text-sm">{post.retentionRate}</div>
+                        <div className="text-[10px] text-slate-400">Retención</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-extrabold text-amber-400 text-sm">{post.saves}</div>
+                        <div className="text-[10px] text-slate-400">Guardados</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1184,6 +1321,16 @@ export function App() {
                   </span>
                 </div>
 
+                {/* Historical Anchor Rationale */}
+                {selectedVideo.accountMatchBadge && (
+                  <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-xs text-purple-200 flex items-start gap-2">
+                    <Trophy className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>{selectedVideo.accountMatchBadge}:</strong> {selectedVideo.accountMatchReason}
+                    </span>
+                  </div>
+                )}
+
                 {/* Scrub Controller */}
                 <div>
                   <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
@@ -1217,6 +1364,7 @@ export function App() {
                   {/* Suggestion Chips */}
                   <div className="flex flex-wrap gap-1.5 mb-2.5">
                     {[
+                      'Replicar estilo de mi Reel #1',
                       'Haz el gancho más agresivo',
                       'Fondo de Lujo Dorado',
                       'Subtítulos Neon Verde',
@@ -1357,7 +1505,11 @@ export function App() {
                 </div>
 
                 <p>
-                  Tus agentes de IA han terminado el análisis de tendencias de esta noche. Hemos creado y programado <strong>{videos.length} vídeos</strong> en los picos de máxima viralidad de hoy:
+                  Tus agentes de IA han terminado el análisis nocturno. Hemos cruzado las <strong>tendencias virales de hoy</strong> con los <strong>vídeos con más visitas de tu cuenta</strong>.
+                </p>
+
+                <p>
+                  Tienes listos <strong>{videos.length} Reels optimizados</strong>:
                 </p>
 
                 <div className="space-y-1.5 py-1">
@@ -1365,6 +1517,7 @@ export function App() {
                     <div key={v.id} className="p-2 rounded-lg bg-black/20 border border-white/10 flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white">⏰ {v.scheduledTime}</span>: {v.title}
+                        <div className="text-[10px] text-purple-200">{v.accountMatchBadge}</div>
                       </div>
                       <span className="text-[10px] text-amber-300 font-bold ml-2 shrink-0">
                         🔥 {v.predictedVirality}%
@@ -1449,7 +1602,7 @@ export function App() {
                 <div>
                   <h3 className="font-bold text-white text-base">Ciclo Nocturno de Agentes IA</h3>
                   <p className="text-xs text-slate-400">
-                    {pipelineRunning ? 'Ejecutando escaneo en tiempo real...' : 'Completado con éxito'}
+                    {pipelineRunning ? 'Auditoría externa e interna en tiempo real...' : 'Completado con éxito'}
                   </p>
                 </div>
               </div>
@@ -1470,7 +1623,7 @@ export function App() {
                   {pipelineStep ? pipelineStep.stepData?.agent || 'Inicializando...' : 'Iniciando agentes...'}
                 </span>
                 <span className="font-bold text-rose-400">
-                  {pipelineStep ? `${pipelineStep.currentStep} de ${pipelineStep.totalSteps}` : '0 / 4'}
+                  {pipelineStep ? `${pipelineStep.currentStep} de ${pipelineStep.totalSteps}` : '0 / 5'}
                 </span>
               </div>
               <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -1500,7 +1653,7 @@ export function App() {
               {pipelineRunning && (
                 <div className="flex items-center gap-2 text-purple-400 animate-pulse">
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Agente procesando análisis de retención...</span>
+                  <span>Auditor analizando patrones de retención en tu historial...</span>
                 </div>
               )}
             </div>
@@ -1532,11 +1685,11 @@ export function App() {
       {/* Footer */}
       <footer className="border-t border-slate-800/80 py-4 px-4 text-center text-xs text-slate-500 bg-[#05070a]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>InstaViral AI • Automatización autónoma para creadores de Instagram</span>
+          <span>InstaViral AI • Doble motor: Tendencias Globales + Rendimiento Histórico Propio</span>
           <div className="flex items-center gap-4 text-slate-400">
             <span>Graph API v21.0</span>
             <span>•</span>
-            <span>Meta Webhooks</span>
+            <span>Insights Audit Engine</span>
             <span>•</span>
             <span>WhatsApp Cloud API</span>
           </div>
