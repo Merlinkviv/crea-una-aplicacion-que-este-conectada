@@ -28,6 +28,18 @@
       "created_at": "2026-11-01T22:59:46.110Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "cb74143f-2e46-42a1-b025-b327dd77f40b",
+      "role": "user",
+      "content": "Una duda, aparte de mirar lo que ha sido viral, también mira lo que más visitas a tenido en mi cuenta, creo que es un punto muy importante",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-01T23:02:24.465Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
