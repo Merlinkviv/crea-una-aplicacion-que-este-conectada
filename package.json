@@ -1,4 +1,10 @@
 {
+  "name": "instaviral-ai",
+  "version": "1.0.0",
+  "description": "Autonomous Nightly Multi-Agent Pipeline for Instagram Reels Automation",
+  "scripts": {
+    "build": "esbuild src/main.jsx --bundle --minify --format=esm --target=es2020 --outfile=bundle.js"
+  },
   "devDependencies": {
     "esbuild": "^0.28.2"
   },
