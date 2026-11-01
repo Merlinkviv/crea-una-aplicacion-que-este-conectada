@@ -90,6 +90,13 @@ export function App() {
     localStorage.setItem('instaviral_notifications', JSON.stringify(notificationConfig));
   }, [notificationConfig]);
 
+  // Refresh Lucide icons whenever the DOM updates
+  useEffect(() => {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  });
+
   // Initialize or attach VideoRenderer when selectedVideo changes
   useEffect(() => {
     if (selectedVideo && canvasRef.current) {
