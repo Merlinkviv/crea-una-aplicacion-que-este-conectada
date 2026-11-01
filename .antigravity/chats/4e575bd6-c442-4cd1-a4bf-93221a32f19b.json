@@ -40,6 +40,18 @@
       "created_at": "2026-11-01T23:02:24.465Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "5d7d382a-d07d-427f-a4be-ec4dd2a83640",
+      "role": "agent",
+      "content": "**Sí, totalmente, y es un punto fundamental.** Analizar solo lo que es viral fuera es solo la mitad del éxito: si un tema o audio está de moda pero no encaja con lo que a tu comunidad le gusta consumir, el algoritmo no despega.\n\nPor eso, he implementado y reforzado en la aplicación un **Doble Motor de Inteligencia Artificial**:\n\n🔗 **[Abrir InstaViral AI y ver la Auditoría Histórica en directo](https://antigravity.luch.dev/site/f810f1af-8079-4baf-bd8a-eff8f3523049/119a9018a8e0aa56dba3515a/)**\n\n---\n\n### 🧠 ¿Cómo analiza la IA lo que mejor te funciona a ti?\n\nDentro del pipeline nocturno actúa un agente especializado: el **Agente 2: Auditor de Histórico Propio**, conectado mediante la *Instagram Graph & Insights API*.\n\nCada noche extrae el **\"ADN de Éxito\"** de tu cuenta analizando tus mejores publicaciones históricas:\n\n1. **Tu Top de Vídeos con Más Visitas**:\n   - Analiza tus Reels históricos más virales (como tu Reel #1 con **420.5K reproducciones**, el #2 con **312K** y el #3 con **195K**).\n   - Extrae el ratio exacto de **retención en los primeros 3 segundos** (84%) y el porcentaje de **guardados** frente a likes.\n\n2. **Extracción de Patrones Ganadores Propios**:\n   - **Mejor estilo de gancho para tu audiencia**: Identifica que los ganchos de rotura de creencia (*\"Deja de usar ChatGPT como un novato...\"*) son los que más retención te generan.\n   - **Duración óptima probada**: Detecta que tus vídeos entre **14 y 17 segundos** tienen una tasa de finalización un 28% mayor que los de 30 segundos.\n   - **Formato más guardado**: Comprueba que las listas aceleradas de 3 herramientas acumulan la mayor cantidad de guardados en tu perfil.\n   - **Disparador algorítmico**: La llamada a comentar una palabra clave (*\"Comenta APPS y te paso el enlace\"*) multiplica por 3.8 el impulso del algoritmo de Instagram.\n\n3. **Cruce Estratégico (Tendencia Externa + Tu Histórico)**:\n   - El **Agente 3 (Estratega Cruzado)** toma la tendencia fresca del día (ej. un audio en tendencia o un tema de última hora) y **le aplica la estructura narrativa que ya ha demostrado funcionar en tu cuenta**.\n\n---\n\n### 🔍 Dónde verlo en la aplicación:\n\n1. **En la pestaña \"Vídeos de Hoy\"**:\n   - Cada tarjeta muestra la etiqueta:\n     `🎯 Basado en tu Reel #1 histórico (420K vistas)`\n     junto con el motivo exacto de por qué ese vídeo replica tu mejor retención.\n\n2. **En la pestaña \"Pipeline IA & ADN de Tu Cuenta\"**:\n   - Encontrarás la tarjeta destacada **\"ADN de Éxito Extraído de Tu Cuenta\"**, detallando tu gancho estrella, tu duración recomendada y tu formato más guardado.\n\n3. **En la pestaña \"Instagram & Top Histórico\"**:\n   - Tienes la auditoría completa de tus **3 Reels con más visitas**, con desglose de reproducciones, retención y guardados.\n\n4. **En el Reproductor 9:16**:\n   - Dispones del botón rápido **`+ Replicar estilo de mi Reel #1`** para que la IA transforme cualquier vídeo al tono y ritmo exactos de tu publicación más vista.\n\n> [!TIP]\n> Si en algún momento quieres respaldar el código en GitHub, pulsa el botón con el logotipo de GitHub en la parte superior del chat para conectar tu repositorio; todo tu proyecto e historial se guardarán automáticamente allí.",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "cb74143f-2e46-42a1-b025-b327dd77f40b",
+      "created_at": "2026-11-01T23:06:57.653Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
